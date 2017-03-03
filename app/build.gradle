@@ -19,6 +19,10 @@ android {
     }
 }
 
+ext{
+    retrofitVersion = '2.2.0'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -26,4 +30,11 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.1'
     testCompile 'junit:junit:4.12'
+
+    compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile "com.squareup.retrofit2:retrofit-mock:${retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    compile "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+    compile "com.evernote:android-job:1.1.7"
 }
