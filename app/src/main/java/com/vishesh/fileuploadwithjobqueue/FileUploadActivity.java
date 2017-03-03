@@ -42,6 +42,37 @@ public class FileUploadActivity extends AppCompatActivity {
         initializeView();
 
         setupRetrofit();
+
+        setupAndroidJob();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST) {
+            if (grantResults.length == 1 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openFileExplorer();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void openFileExplorer() {
+        Intent fileChooserIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        fileChooserIntent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        if (fileChooserIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(Intent.createChooser(fileChooserIntent,
+                    "No file explorer found"), FILE_SELECT_REQUEST_CODE);
+        } else {
+            showMessage("Unable to open file explorer");
+        }
+    }
+
+    private void showMessage(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT)
+                .show();
     }
 
     private void setupRetrofit() {
@@ -86,8 +117,12 @@ public class FileUploadActivity extends AppCompatActivity {
         });
     }
 
+    private void setupAndroidJob() {
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void getPermissionToReadExternalStorage() {
+    void getPermissionToReadExternalStorage() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -98,34 +133,5 @@ public class FileUploadActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
                     READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST);
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST) {
-            if (grantResults.length == 1 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openFileExplorer();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    private void openFileExplorer() {
-        Intent fileChooserIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        fileChooserIntent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        if (fileChooserIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(Intent.createChooser(fileChooserIntent,
-                    "No file explorer found"), FILE_SELECT_REQUEST_CODE);
-        } else {
-            showMessage("Unable to open file explorer");
-        }
-    }
-
-    private void showMessage(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT)
-                .show();
     }
 }
