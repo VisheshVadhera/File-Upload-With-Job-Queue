@@ -5,7 +5,6 @@ import com.evernote.android.job.JobCreator;
 
 public class FileUploadJobCreator implements JobCreator {
 
-
     @Override
     public Job create(String tag) {
         switch (tag) {

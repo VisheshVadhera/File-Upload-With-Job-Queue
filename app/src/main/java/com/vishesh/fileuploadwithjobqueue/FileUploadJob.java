@@ -19,6 +19,8 @@ public class FileUploadJob extends Job {
     public static void schedulerJob() {
         new JobRequest.Builder(TAG)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .setPersisted(true);
+                .setPersisted(true)
+                .build()
+                .schedule();
     }
 }

@@ -10,7 +10,6 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-
         JobManager.create(this)
                 .addJobCreator(new FileUploadJobCreator());
     }

@@ -1,6 +1,7 @@
 package com.vishesh.fileuploadwithjobqueue;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -132,6 +134,17 @@ public class FileUploadActivity extends AppCompatActivity {
 
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
                     READ_EXTERNAL_STORAGE_PERMISSIONS_REQUEST);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case FILE_SELECT_REQUEST_CODE:
+                    File file = FileUtils.getFileForUri(this, data.getData());
+                    //TODO: upload the file
+            }
         }
     }
 }
